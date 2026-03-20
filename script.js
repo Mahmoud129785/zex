@@ -88,48 +88,53 @@ if (document.getElementById("services")) {
 
   let container = document.getElementById("services");
 
-  services.forEach(service => {
+services.forEach(service => {
 
-    let div = document.createElement("div");
-    div.className = "service";
+  let div = document.createElement("div");
+  div.className = "service";
 
-    div.innerHTML = `
-      <h3>${service}</h3>
+  div.innerHTML = `
+    <h3>${service}</h3>
 
-      <div class="counter">
-        <button class="minus">-</button>
-        <span>1</span>
-        <button class="plus">+</button>
-      </div>
+    <div class="counter">
+      <button class="minus">-</button>
+      <span>100</span>
+      <button class="plus">+</button>
+    </div>
 
-      <button class="orderBtn">طلب / استفسار</button>
-    `;
+    <button class="orderBtn">طلب / استفسار</button>
+  `;
 
-    // أزرار + و -
-    let minus = div.querySelector(".minus");
-    let plus = div.querySelector(".plus");
-    let countSpan = div.querySelector("span");
+  let minus = div.querySelector(".minus");
+  let plus = div.querySelector(".plus");
+  let countSpan = div.querySelector("span");
 
-    minus.onclick = () => {
-      let val = parseInt(countSpan.innerText);
-      if (val > 1) countSpan.innerText = val - 1;
-    };
+  // هل الخدمة سوشيال؟
+  let isSocial =
+    service.includes("تيك توك") ||
+    service.includes("يوتيوب") ||
+    service.includes("انستا");
 
-    plus.onclick = () => {
-      let val = parseInt(countSpan.innerText);
-      countSpan.innerText = val + 1;
-    };
+  let step = isSocial ? 100 : 1;
 
-    // زر الطلب
-    let orderBtn = div.querySelector(".orderBtn");
+  minus.onclick = () => {
+    let val = parseInt(countSpan.innerText);
+    if (val > step) countSpan.innerText = val - step;
+  };
 
-    orderBtn.onclick = () => {
-      let count = countSpan.innerText;
-      let msg = `اريد ${service} العدد: ${count}`;
-      let url = `https://wa.me/972599351264?text=${encodeURIComponent(msg)}`;
-      window.open(url);
-    };
+  plus.onclick = () => {
+    let val = parseInt(countSpan.innerText);
+    countSpan.innerText = val + step;
+  };
 
-    container.appendChild(div);
-  });
-}
+  let orderBtn = div.querySelector(".orderBtn");
+
+  orderBtn.onclick = () => {
+    let count = countSpan.innerText;
+    let msg = `اريد ${service} العدد: ${count}`;
+    let url = `https://wa.me/972599351264?text=${encodeURIComponent(msg)}`;
+    window.open(url);
+  };
+
+  container.appendChild(div);
+});
